@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>日本 · Propuesta de Viaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--sakura-light:#fce8ef;--sakura-pale:#f9d0df;--sakura-mid:#e8a0b8;--sakura-deep:#c2567a;--sakura-dark:#8b2a4a;--ink:#1a0a10;--ink-mid:#3d1a26;--parchment:#fdf6f0;--gold:#c9a84c;--white:#fff9f7}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--parchment);color:var(--ink);font-family:'Jost',sans-serif;overflow-x:hidden;min-height:100vh;width:100%}
+.petals-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.petal{position:absolute;top:-40px;width:12px;height:14px;background:radial-gradient(ellipse at 40% 30%,#f7c5d8,#e896b8 60%,#d06090);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;opacity:0;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-40px) rotate(0deg) translateX(0);opacity:.7}80%{opacity:.4}100%{transform:translateY(110vh) rotate(360deg) translateX(30px);opacity:0}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:rgba(253,246,240,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--sakura-pale)}
+.nav-logo{font-family:'Shippori Mincho',serif;font-size:1.4rem;font-weight:700;color:var(--sakura-dark);letter-spacing:2px;line-height:1}
+.nav-logo span{display:block;font-family:'Jost',sans-serif;font-size:.55rem;font-weight:300;letter-spacing:4px;color:var(--sakura-deep);text-transform:uppercase;margin-top:2px}
+.hamburger{width:32px;height:24px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;z-index:200;flex-shrink:0}
+.hamburger span{display:block;height:2px;background:var(--sakura-dark);border-radius:2px;transition:all .35s cubic-bezier(.77,0,.18,1);transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(11px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-11px) rotate(-45deg)}
+.sidebar{position:fixed;top:0;right:-100%;width:88%;max-width:340px;height:100%;background:var(--ink);z-index:150;transition:right .45s cubic-bezier(.77,0,.18,1);overflow-y:auto;overflow-x:hidden;padding:90px 0 40px}
+.sidebar.open{right:0}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(26,10,16,.6);z-index:140;opacity:0;pointer-events:none;transition:opacity .4s}
+.sidebar-overlay.open{opacity:1;pointer-events:all}
+.sidebar-city{padding:0 28px 8px;margin-top:20px}
+.sidebar-city-label{font-size:.65rem;letter-spacing:4px;color:var(--sakura-mid);text-transform:uppercase;margin-bottom:6px}
+.sidebar-city-name{font-family:'Shippori Mincho',serif;font-size:1.4rem;color:var(--white);font-weight:700}
+.sidebar-divider{height:1px;background:linear-gradient(to right,var(--sakura-dark),transparent);margin:12px 28px 4px}
+.sidebar-links{list-style:none}
+.sidebar-links a{display:flex;align-items:center;gap:12px;padding:13px 28px;color:rgba(255,249,247,.7);text-decoration:none;font-size:.82rem;font-weight:300;letter-spacing:1px;transition:all .2s;border-left:2px solid transparent}
+.sidebar-links a:hover{color:var(--white);border-left-color:var(--sakura-mid);background:rgba(255,255,255,.04);padding-left:34px}
+.link-icon{font-size:1rem;color:var(--sakura-deep)}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 28px 60px;position:relative;z-index:1}
+.hero-kana{font-family:'Shippori Mincho',serif;font-size:5rem;font-weight:800;color:var(--sakura-dark);line-height:1;letter-spacing:-2px;animation:fadeUp 1s ease forwards;opacity:0}
+.hero-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;font-style:italic;color:var(--ink-mid);letter-spacing:3px;text-transform:uppercase;margin:10px 0 30px;animation:fadeUp 1s .2s ease forwards;opacity:0}
+.hero-divider{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--sakura-deep),transparent);margin:0 auto 28px;animation:fadeUp 1s .3s ease forwards;opacity:0}
+.hero-info{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s .4s ease forwards;opacity:0}
+.hero-badge{background:var(--ink);color:var(--sakura-light);padding:10px 18px;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;font-weight:500}
+.hero-badge strong{display:block;font-family:'Shippori Mincho',serif;font-size:1.3rem;font-weight:700;color:var(--sakura-mid);letter-spacing:0}
+.hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeUp 1s .8s ease forwards;opacity:0}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--sakura-deep),transparent);animation:scrollPulse 2s infinite}
+@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
+.scroll-text{font-size:.6rem;letter-spacing:3px;color:var(--sakura-deep);text-transform:uppercase;writing-mode:vertical-rl;font-weight:300}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+/* TRAINS */
+.train-accordion{position:relative;z-index:1;background:var(--parchment);padding:28px 20px}
+.train-accordion-toggle{width:100%;background:linear-gradient(135deg,#0f1923,#1e3348);border:none;cursor:pointer;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.train-toggle-left{text-align:left;min-width:0}
+.train-toggle-title{font-family:'Shippori Mincho',serif;font-size:1.25rem;font-weight:800;color:var(--white);line-height:1}
+.train-toggle-sub{font-size:.58rem;letter-spacing:3px;color:var(--sakura-mid);text-transform:uppercase;font-weight:300;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.train-toggle-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.train-toggle-tag{font-size:.6rem;letter-spacing:2px;color:rgba(232,160,184,.6);text-transform:uppercase;font-weight:300;white-space:nowrap}
+.train-chevron{width:22px;height:22px;border:1px solid rgba(194,86,122,.4);display:flex;align-items:center;justify-content:center;color:var(--sakura-mid);font-size:.65rem;flex-shrink:0;transition:transform .35s ease}
+.train-accordion.open .train-chevron{transform:rotate(180deg)}
+.train-accordion-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.train-accordion.open .train-accordion-body{max-height:3000px}
+.train-routes{display:flex;flex-direction:column;gap:0}
+.train-route-card{background:var(--white);border:1px solid var(--sakura-pale);border-top:none}
+.train-route-card:first-child{border-top:1px solid var(--sakura-pale)}
+.train-route-header{background:linear-gradient(135deg,#162030,#243b52);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.train-route-cities{display:flex;align-items:center;gap:8px;min-width:0}
+.train-city-name{font-family:'Shippori Mincho',serif;font-size:1rem;font-weight:700;color:var(--white);white-space:nowrap}
+.train-arrow{color:var(--sakura-mid);font-size:.75rem;white-space:nowrap}
+.train-route-time{font-size:.6rem;color:#a0bcd0;letter-spacing:1px;text-align:right;font-weight:300;flex-shrink:0;white-space:nowrap}
+.train-route-time strong{display:block;font-family:'Shippori Mincho',serif;font-size:1rem;color:var(--white);font-weight:700;letter-spacing:0}
+.train-options{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.train-option{display:flex;align-items:flex-start;gap:10px;padding:10px;background:#f5eef3;border-left:3px solid var(--sakura-deep);position:relative}
+.train-option.recommended{background:#fff8fa;border-left-color:var(--gold)}
+.train-option-badge{flex-shrink:0;width:34px;height:34px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:600;color:#a0bcd0;letter-spacing:.3px;text-align:center;line-height:1.2}
+.train-option-badge.shinkansen{background:#002b6e;color:#8ab4d8}
+.train-option-badge.limited{background:#6e0020;color:#e8a0b8}
+.train-option-badge.bus{background:#1a3d14;color:#90c87a}
+.train-option-badge.local{background:#2e2e2e;color:#b0b0b0}
+.train-option-body{flex:1;min-width:0}
+.train-option-name{font-family:'Shippori Mincho',serif;font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.2}
+.train-option-jp{font-size:.65rem;color:var(--sakura-dark);margin-top:1px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.train-option-details{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.train-pill{background:var(--white);border:1px solid #e0ccd4;padding:2px 7px;font-size:.6rem;color:#4a2535;letter-spacing:.3px;font-weight:500}
+.train-pill.price{background:var(--ink);color:#e8c0d0;border-color:var(--ink)}
+.train-pill.duration{background:#f9d0df;color:#6e1a30;border-color:#d4899e;font-weight:600}
+.recommend-tag{position:absolute;top:6px;right:6px;background:var(--gold);color:var(--ink);font-size:.52rem;letter-spacing:1px;text-transform:uppercase;padding:2px 6px;font-weight:700}
+.train-note{margin:0 14px 12px;padding:9px 12px;background:rgba(139,42,74,.06);border-left:2px solid var(--sakura-mid);font-size:.68rem;color:#4a2535;font-weight:400;line-height:1.6}
+.jr-pass-box{background:linear-gradient(135deg,#0f1923,#1e3348);padding:18px;border-top:1px solid rgba(194,86,122,.2)}
+.jr-pass-title{font-family:'Shippori Mincho',serif;font-size:.95rem;color:var(--white);font-weight:700;margin-bottom:6px}
+.jr-pass-desc{font-size:.68rem;color:#8ab0c4;font-weight:300;line-height:1.7}
+.jr-pass-pills{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.jr-pass-pill{background:rgba(194,86,122,.15);border:1px solid rgba(194,86,122,.35);padding:4px 10px;font-size:.62rem;color:#d48aa4;font-weight:500}
+/* CITY */
+.city-section{position:relative;z-index:1;padding:0 0 60px}
+.city-header{padding:50px 28px 30px;background:var(--ink);position:relative;overflow:hidden}
+.city-header::before{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(194,86,122,.2),transparent 70%);pointer-events:none}
+.city-header-kana{font-family:'Shippori Mincho',serif;font-size:3.2rem;font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1}
+.city-header-roman{font-size:.6rem;letter-spacing:5px;color:var(--sakura-mid);text-transform:uppercase;font-weight:300;margin-top:6px}
+.city-header-days{display:inline-block;margin-top:14px;background:var(--sakura-dark);color:var(--sakura-light);padding:5px 14px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;font-weight:500}
+.city-tabs{display:flex;background:var(--ink-mid);overflow-x:auto;scrollbar-width:none}
+.city-tabs::-webkit-scrollbar{display:none}
+.tab-btn{flex:1;min-width:80px;padding:14px 8px;border:none;background:transparent;color:rgba(255,249,247,.45);font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .25s;white-space:nowrap}
+.tab-btn.active{color:var(--sakura-mid);border-bottom-color:var(--sakura-mid);background:rgba(255,255,255,.04)}
+.tab-panel{display:none;padding:24px 18px}
+.tab-panel.active{display:block}
+.card{background:var(--white);border:1px solid var(--sakura-pale);margin-bottom:14px;position:relative;overflow:hidden}
+.card-accent{position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--sakura-deep),var(--sakura-mid))}
+.card-inner{padding:16px 16px 16px 22px}
+.card-tag{display:inline-block;font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--sakura-deep);font-weight:500;margin-bottom:5px}
+.card-name{font-family:'Shippori Mincho',serif;font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.3}
+.card-name-roman{font-size:.72rem;color:var(--sakura-dark);font-weight:400;letter-spacing:1px;margin-top:2px}
+.card-desc{font-size:.78rem;color:#3a1a24;margin-top:7px;line-height:1.65;font-weight:400}
+.card-meta{display:flex;flex-direction:column;gap:5px;margin-top:12px;padding-top:12px;border-top:1px solid var(--sakura-pale)}
+.card-address{font-size:.68rem;color:#7a4455;display:flex;gap:6px;align-items:flex-start;font-weight:400}
+.card-address-symbol{color:var(--sakura-deep);flex-shrink:0;font-size:.75rem}
+.card-price{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.price-badge{background:var(--ink);color:var(--sakura-light);padding:3px 10px;font-size:.7rem;font-weight:500;letter-spacing:1px}
+.price-yen{font-size:.65rem;color:#7a4455;font-weight:400}
+.free-badge{background:#e8f5e9;color:#1b5e20;padding:3px 10px;font-size:.7rem;font-weight:600;letter-spacing:1px}
+.maps-link{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 12px;background:transparent;border:1px solid var(--sakura-mid);color:var(--sakura-dark);text-decoration:none;font-size:.62rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s}
+.maps-link:hover,.maps-link:active{background:var(--sakura-dark);color:var(--sakura-light);border-color:var(--sakura-dark)}
+.maps-link-icon{font-size:.8rem}
+.highlight-note{background:linear-gradient(135deg,var(--sakura-dark),var(--ink-mid));color:var(--sakura-light);padding:5px 10px;font-size:.65rem;letter-spacing:1px;margin:6px 0;display:inline-block}
+.section-label{font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--sakura-deep);font-weight:500;margin:20px 0 14px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--sakura-pale),transparent)}
+/* OPTIONAL */
+.optional-section{background:var(--ink);padding:40px 24px;margin-top:40px;position:relative;z-index:1}
+.optional-title{font-family:'Shippori Mincho',serif;font-size:1.3rem;color:var(--white);font-weight:700;margin-bottom:6px}
+.optional-sub{font-size:.65rem;color:var(--sakura-mid);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:300}
+.optional-hint{font-size:.7rem;color:rgba(255,249,247,.45);margin-bottom:20px;font-weight:300;line-height:1.6}
+.optional-grid{display:flex;flex-direction:column;gap:12px}
+.optional-city{border:1px solid rgba(194,86,122,.25);position:relative;overflow:hidden}
+.optional-city-header{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(194,86,122,.1);transition:background .2s}
+.optional-city-header:active{background:rgba(255,255,255,.04)}
+.optional-city-left{flex:1;min-width:0}
+.optional-city-jp{font-family:'Shippori Mincho',serif;font-size:1.25rem;color:var(--white);font-weight:700;line-height:1}
+.optional-city-en{font-size:.6rem;color:var(--sakura-mid);letter-spacing:3px;text-transform:uppercase;margin-top:3px;font-weight:300}
+.optional-city-tag{font-size:.6rem;color:rgba(255,249,247,.4);text-align:right;font-weight:300;letter-spacing:.5px;max-width:110px;line-height:1.4;flex-shrink:0}
+.optional-city-chevron{color:var(--sakura-mid);font-size:.65rem;transition:transform .3s;flex-shrink:0}
+.optional-city.open .optional-city-chevron{transform:rotate(180deg)}
+.optional-city-body{display:none}
+.optional-city.open .optional-city-body{display:block}
+.opt-place{display:flex;gap:10px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.04)}
+.opt-place:last-child{border-bottom:none}
+.opt-place-icon{width:30px;height:30px;background:rgba(194,86,122,.15);display:flex;align-items:center;justify-content:center;color:var(--sakura-mid);font-size:.75rem;flex-shrink:0}
+.opt-place-body{flex:1;min-width:0}
+.opt-place-name{font-family:'Shippori Mincho',serif;font-size:.9rem;font-weight:700;color:var(--white);line-height:1.2}
+.opt-place-roman{font-size:.62rem;color:var(--sakura-mid);font-weight:400;letter-spacing:1px;margin-top:1px}
+.opt-place-desc{font-size:.71rem;color:rgba(255,249,247,.65);margin-top:5px;font-weight:300;line-height:1.55}
+.opt-place-price{display:flex;gap:8px;margin-top:7px;flex-wrap:wrap}
+.opt-price-pill{padding:3px 9px;font-size:.62rem;font-weight:500}
+.opt-price-pill.paid{background:rgba(194,86,122,.18);color:#e8b0c4;border:1px solid rgba(194,86,122,.3)}
+.opt-price-pill.free{background:rgba(46,125,50,.18);color:#90d494;border:1px solid rgba(46,125,50,.3)}
+.opt-summary{margin-top:24px;padding:18px;border:1px solid rgba(194,86,122,.2)}
+.opt-summary-title{font-size:.6rem;letter-spacing:3px;color:var(--sakura-mid);text-transform:uppercase;margin-bottom:14px;font-weight:500}
+.opt-summary-row{font-size:.73rem;color:rgba(255,249,247,.6);font-weight:300;line-height:1.5;display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.opt-summary-row:last-child{margin-bottom:0}
+.opt-summary-dot{color:var(--sakura-deep);flex-shrink:0}
+footer{background:var(--ink);padding:40px 28px;text-align:center;border-top:1px solid var(--sakura-dark);position:relative;z-index:1}
+.footer-kana{font-family:'Shippori Mincho',serif;font-size:2.5rem;color:var(--sakura-dark);font-weight:800}
+.blossom-deco{font-family:'Shippori Mincho',serif;font-size:1.4rem;color:var(--sakura-mid);letter-spacing:8px;padding:16px 0 0;opacity:.6}
+.footer-text{font-size:.65rem;color:rgba(255,249,247,.35);letter-spacing:3px;text-transform:uppercase;margin-top:8px;font-weight:300}
+.footer-note{margin-top:12px;font-size:.58rem;color:rgba(255,249,247,.2);letter-spacing:1.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="petals-bg" id="petalsBg"></div>
+<div class="sidebar-overlay" id="overlay"></div>
+
+<nav>
+  <div class="nav-logo">日本<span>Propuesta · 3 semanas</span></div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-city">
+    <div class="sidebar-city-label">Transporte</div>
+    <div class="sidebar-city-name">鉄道 · Trenes</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <ul class="sidebar-links">
+    <li><a href="#trenes" onclick="closeSidebar()"><span class="link-icon">◈</span> Rutas entre ciudades</a></li>
+  </ul>
+  <div class="sidebar-city" style="margin-top:24px">
+    <div class="sidebar-city-label">Primera etapa</div>
+    <div class="sidebar-city-name">東京 · Tokio</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <ul class="sidebar-links">
+    <li><a href="#tokyo-shopping" onclick="closeSidebar()"><span class="link-icon">◈</span> Compras</a></li>
+    <li><a href="#tokyo-food" onclick="closeSidebar()"><span class="link-icon">◈</span> Gastronomía</a></li>
+    <li><a href="#tokyo-sights" onclick="closeSidebar()"><span class="link-icon">◈</span> Lugares emblemáticos</a></li>
+  </ul>
+  <div class="sidebar-city" style="margin-top:24px">
+    <div class="sidebar-city-label">Segunda etapa</div>
+    <div class="sidebar-city-name">京都 · Kioto</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <ul class="sidebar-links">
+    <li><a href="#kyoto-shopping" onclick="closeSidebar()"><span class="link-icon">◈</span> Compras</a></li>
+    <li><a href="#kyoto-food" onclick="closeSidebar()"><span class="link-icon">◈</span> Gastronomía</a></li>
+    <li><a href="#kyoto-sights" onclick="closeSidebar()"><span class="link-icon">◈</span> Lugares emblemáticos</a></li>
+  </ul>
+  <div class="sidebar-city" style="margin-top:24px">
+    <div class="sidebar-city-label">Tercera etapa</div>
+    <div class="sidebar-city-name">大阪 · Osaka</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <ul class="sidebar-links">
+    <li><a href="#osaka-shopping" onclick="closeSidebar()"><span class="link-icon">◈</span> Compras</a></li>
+    <li><a href="#osaka-food" onclick="closeSidebar()"><span class="link-icon">◈</span> Gastronomía</a></li>
+    <li><a href="#osaka-sights" onclick="closeSidebar()"><span class="link-icon">◈</span> Lugares emblemáticos</a></li>
+  </ul>
+  <div class="sidebar-city" style="margin-top:24px">
+    <div class="sidebar-city-label">Opcionales</div>
+    <div class="sidebar-city-name">Otras ciudades</div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <ul class="sidebar-links">
+    <li><a href="#optionals" onclick="closeSidebar()"><span class="link-icon">◈</span> Ver opciones</a></li>
+  </ul>
+</aside>
+
+<section class="hero">
+  <div class="hero-kana">日本</div>
+  <div class="hero-title">Nihon · Propuesta de viaje</div>
+  <div class="hero-divider"></div>
+  <div class="hero-info">
+    <div class="hero-badge"><strong>3</strong>semanas</div>
+    <div class="hero-badge"><strong>3</strong>ciudades</div>
+    <div class="hero-badge"><strong>21</strong>días</div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><div class="scroll-text">Descubrir</div></div>
+</section>
+
+<!-- TRENES -->
+<div class="train-accordion" id="trenes">
+  <button class="train-accordion-toggle" onclick="toggleTrains()" aria-expanded="false">
+    <div class="train-toggle-left">
+      <div class="train-toggle-title">鉄道 · Trenes</div>
+      <div class="train-toggle-sub">Rutas entre ciudades · JR Pass recomendado</div>
+    </div>
+    <div class="train-toggle-right">
+      <div class="train-toggle-tag">3 rutas</div>
+      <div class="train-chevron">▾</div>
+    </div>
+  </button>
+  <div class="train-accordion-body">
+    <div class="train-routes">
+      <div class="train-route-card">
+        <div class="train-route-header">
+          <div class="train-route-cities"><div class="train-city-name">東京</div><div class="train-arrow">——›</div><div class="train-city-name">京都</div></div>
+          <div class="train-route-time">Mínimo<strong>2h 15m</strong></div>
+        </div>
+        <div class="train-options">
+          <div class="train-option recommended">
+            <div class="recommend-tag">★ Recomendado</div>
+            <div class="train-option-badge shinkansen">新幹線</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Shinkansen Nozomi</div>
+              <div class="train-option-jp">のぞみ · Tōkaidō Line</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">2h 15m</div>
+                <div class="train-pill price">$92 — $96 USD · ¥13.600 — ¥14.130</div>
+                <div class="train-pill">Salidas cada 10 min</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge shinkansen">新幹線</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Shinkansen Hikari</div>
+              <div class="train-option-jp">ひかり · Tōkaidō Line</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">2h 40m</div>
+                <div class="train-pill price">~$92 USD · ¥13.600</div>
+                <div class="train-pill">Incluido en JR Pass</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge bus">夜行</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Bus nocturno</div>
+              <div class="train-option-jp">Highway Bus · Willer Express</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">~8h (nocturno)</div>
+                <div class="train-pill price">$27 — $50 USD · ¥4.000 — ¥7.400</div>
+                <div class="train-pill">Ahorra noche de hotel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="train-note">◆ El Nozomi no está cubierto por el JR Pass pero es el más rápido. El Hikari sí está incluido y hace 2-3 paradas extra.</div>
+        <div style="height:12px"></div>
+      </div>
+      <div class="train-route-card">
+        <div class="train-route-header">
+          <div class="train-route-cities"><div class="train-city-name">京都</div><div class="train-arrow">——›</div><div class="train-city-name">大阪</div></div>
+          <div class="train-route-time">Mínimo<strong>15m</strong></div>
+        </div>
+        <div class="train-options">
+          <div class="train-option recommended">
+            <div class="recommend-tag">★ Más rápido</div>
+            <div class="train-option-badge shinkansen">新幹線</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Shinkansen Nozomi / Hikari</div>
+              <div class="train-option-jp">のぞみ · ひかり · Tōkaidō-Sanyō Line</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">15 — 20m</div>
+                <div class="train-pill price">$20 — $23 USD · ¥2.910 — ¥3.440</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge limited">特急</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Hankyu Limited Express</div>
+              <div class="train-option-jp">阪急 特急 · Kyoto Line</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">43m</div>
+                <div class="train-pill price">$2.80 USD · ¥410</div>
+                <div class="train-pill">La más económica</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge local">JR</div>
+            <div class="train-option-body">
+              <div class="train-option-name">JR Biwako / Kyoto Line</div>
+              <div class="train-option-jp">JR 琵琶湖線 · 京都線</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">30 — 35m</div>
+                <div class="train-pill price">$3.70 USD · ¥560</div>
+                <div class="train-pill">Incluido en JR Pass</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="train-note">◆ Kioto y Osaka están muy cerca. El Hankyu es la opción más popular y económica. El Shinkansen conviene si ya tenés el JR Pass activo.</div>
+        <div style="height:12px"></div>
+      </div>
+      <div class="train-route-card">
+        <div class="train-route-header">
+          <div class="train-route-cities"><div class="train-city-name">大阪</div><div class="train-arrow">——›</div><div class="train-city-name">東京</div></div>
+          <div class="train-route-time">Mínimo<strong>2h 30m</strong></div>
+        </div>
+        <div class="train-options">
+          <div class="train-option recommended">
+            <div class="recommend-tag">★ Recomendado</div>
+            <div class="train-option-badge shinkansen">新幹線</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Shinkansen Nozomi</div>
+              <div class="train-option-jp">のぞみ · desde Shin-Osaka (新大阪)</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">2h 30m</div>
+                <div class="train-pill price">$121 — $128 USD · ¥17.850 — ¥19.000</div>
+                <div class="train-pill">Salidas frecuentes</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge shinkansen">新幹線</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Shinkansen Hikari</div>
+              <div class="train-option-jp">ひかり · Incluido en JR Pass</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">3h — 3h 20m</div>
+                <div class="train-pill price">Incluido en JR Pass</div>
+              </div>
+            </div>
+          </div>
+          <div class="train-option">
+            <div class="train-option-badge bus">夜行</div>
+            <div class="train-option-body">
+              <div class="train-option-name">Bus nocturno</div>
+              <div class="train-option-jp">Highway Bus · Osaka — Tokyo</div>
+              <div class="train-option-details">
+                <div class="train-pill duration">~9h (nocturno)</div>
+                <div class="train-pill price">$33 — $60 USD · ¥4.900 — ¥8.900</div>
+                <div class="train-pill">Ahorra noche de hotel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="train-note">◆ Salida desde Shin-Osaka (新大阪), no desde Osaka Station. Tomá el metro de Osaka hasta Shin-Osaka (10 min, ¥240 / ~$1.60 USD).</div>
+        <div style="height:12px"></div>
+      </div>
+      <div class="jr-pass-box">
+        <div class="jr-pass-title">JR Pass · Pase Nacional</div>
+        <div class="jr-pass-desc">El Japan Rail Pass da acceso ilimitado a la mayoría de los trenes JR, incluyendo el Shinkansen Hikari y Kodama — no el Nozomi. Para un viaje de 3 semanas conviene evaluar el pase de 21 días.</div>
+        <div class="jr-pass-pills">
+          <div class="jr-pass-pill">21 días · ~$700 USD</div>
+          <div class="jr-pass-pill">14 días · ~$530 USD</div>
+          <div class="jr-pass-pill">Se compra antes de salir</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOKYO -->
+<section class="city-section" id="tokyo">
+  <div class="city-header">
+    <div class="city-header-kana">東京</div>
+    <div class="city-header-roman">Tokio · Primera etapa</div>
+    <div class="city-header-days">7 — 10 días</div>
+  </div>
+  <div class="city-tabs" id="tokyoTabs">
+    <button class="tab-btn active" onclick="showTab('tokyo','shopping')">◈ Compras</button>
+    <button class="tab-btn" onclick="showTab('tokyo','food')">◈ Comida</button>
+    <button class="tab-btn" onclick="showTab('tokyo','sights')">◈ Lugares</button>
+  </div>
+  <div class="tab-panel active" id="tokyo-shopping">
+    <p class="section-label">買い物する場所 · Compras</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Akihabara · 秋葉原</div><div class="card-name">あきはばら</div><div class="card-desc">Electrónica y cultura anime. El distrito más icónico para tecnología, figuras de colección, videojuegos retro y tiendas de manga.</div><div class="card-meta"><a href="https://maps.google.com/?q=Akihabara+Tokyo+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shinjuku · 新宿</div><div class="card-name">しんじゅく</div><div class="card-desc">Shoppings principales y grandes cadenas de retail. Centro comercial por excelencia de Tokio, con tiendas departamentales de varios pisos.</div><div class="card-meta"><a href="https://maps.google.com/?q=Shinjuku+shopping+Tokyo+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shibuya · 渋谷</div><div class="card-name">しぶや</div><div class="card-desc">Lifestyle shopping y tendencias de moda. El corazón de la cultura juvenil japonesa con marcas locales e internacionales.</div><div class="card-meta"><a href="https://maps.google.com/?q=Shibuya+shopping+Tokyo+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Ameyoko · アメ横</div><div class="card-name">あめよこ Shopping Street</div><div class="card-desc">Mercado callejero con ropa de segunda mano, souvenirs y productos locales. Una experiencia de compra auténtica y accesible.</div><div class="card-meta"><a href="https://maps.google.com/?q=Ameyoko+Shopping+Street+Ueno+Tokyo" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+  <div class="tab-panel" id="tokyo-food">
+    <p class="section-label">東京で食べる場所 · Gastronomía</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shinjuku · Carne</div><div class="card-name">牛かつ もと村</div><div class="card-name-roman">Gyūkatsu Motomura</div><div class="card-desc">Cocina tradicional japonesa basada en filete de ternera empanado. Incluye guarniciones típicas: arroz, miso y encurtidos.</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Shinjuku 3-chōme 18-10, Shinjuku-ku, Tokio</span></div><div class="card-price"><div class="price-badge">$10 — $24 USD</div><div class="price-yen">¥1.500 — ¥3.500</div></div><a href="https://maps.google.com/?q=牛かつもと村+新宿三丁目18-10+東京" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shibuya · Ramen</div><div class="card-name">一蘭</div><div class="card-name-roman">Ichiran</div><div class="card-desc">Ramen en mesas individuales con separadores de madera. Una experiencia introspectiva y única de la cultura del ramen japonés.</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Jinnan 1-chōme 22-7, Shibuya-ku, Tokio</span></div><div class="card-price"><div class="price-badge">$7 — $14 USD</div><div class="price-yen">¥1.000 — ¥2.000</div></div><a href="https://maps.google.com/?q=一蘭+渋谷区神南1丁目22-7+東京" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shibuya · Sushi</div><div class="card-name">おうべい</div><div class="card-name-roman">Oubei</div><div class="card-desc">Sushi en cinta transportadora. A metros del famoso cruce de Shibuya, es el más céntrico y accesible para disfrutar sushi fresco.</div><div class="highlight-note">★ El más céntrico · a metros del Shibuya Scramble</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Dōgenzaka 2-chōme 29-11, Shibuya-ku, Tokio</span></div><div class="card-price"><div class="price-badge">$7 — $17 USD</div><div class="price-yen">¥1.000 — ¥2.500</div></div><a href="https://maps.google.com/?q=道玄坂2丁目29-11+渋谷区+東京" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+  <div class="tab-panel" id="tokyo-sights">
+    <p class="section-label">名所 · Lugares emblemáticos</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Asakusa · Templo</div><div class="card-name">浅草寺</div><div class="card-name-roman">Sensō-ji Temple</div><div class="card-desc">El templo budista más antiguo de Tokio, fundado en el año 628. Una de las imágenes más icónicas de Japón con su gran linterna roja.</div><div class="card-meta"><div class="card-price"><div class="free-badge">✓ Entrada gratuita</div></div><a href="https://maps.google.com/?q=Senso-ji+Temple+Asakusa+Tokyo" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Harajuku · Santuario</div><div class="card-name">明治神宮</div><div class="card-name-roman">Meiji Jingū</div><div class="card-desc">Santuario sintoísta dentro de un bosque urbano de 70 hectáreas. Paz y naturaleza en el corazón de Tokio, dedicado al Emperador Meiji.</div><div class="card-meta"><div class="card-price"><div class="free-badge">✓ Entrada gratuita</div></div><a href="https://maps.google.com/?q=Meiji+Shrine+Harajuku+Tokyo" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shibuya · Ícono urbano</div><div class="card-name">渋谷スクランブル交差点</div><div class="card-name-roman">Shibuya Scramble Crossing</div><div class="card-desc">El cruce peatonal más famoso del mundo. Más de 3.000 personas cruzan simultáneamente en cada señal verde. Imprescindible, especialmente de noche.</div><div class="card-meta"><div class="card-price"><div class="free-badge">✓ Acceso gratuito</div></div><a href="https://maps.google.com/?q=Shibuya+Scramble+Crossing+Tokyo" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Sumida · Mirador</div><div class="card-name">東京スカイツリー</div><div class="card-name-roman">Tōkyō Skytree</div><div class="card-desc">La torre más alta de Japón con 634 metros. Vista panorámica de Tokio y el Monte Fuji en días despejados. Galerías y restaurantes en su base.</div><div class="card-meta"><div class="card-price"><div class="price-badge">$14 — $21 USD</div><div class="price-yen">¥2.100 — ¥3.100</div></div><a href="https://maps.google.com/?q=Tokyo+Skytree+Sumida+Tokyo" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+</section>
+
+<!-- KYOTO -->
+<section class="city-section" id="kyoto">
+  <div class="city-header">
+    <div class="city-header-kana">京都</div>
+    <div class="city-header-roman">Kioto · Segunda etapa</div>
+    <div class="city-header-days">3 — 4 días</div>
+  </div>
+  <div class="city-tabs" id="kyotoTabs">
+    <button class="tab-btn active" onclick="showTab('kyoto','shopping')">◈ Compras</button>
+    <button class="tab-btn" onclick="showTab('kyoto','food')">◈ Comida</button>
+    <button class="tab-btn" onclick="showTab('kyoto','sights')">◈ Lugares</button>
+  </div>
+  <div class="tab-panel active" id="kyoto-shopping">
+    <p class="section-label">買い物する場所 · Compras</p>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Nakagyō-ku · Mercado</div>
+        <div class="card-name">錦市場</div>
+        <div class="card-name-roman">Nishiki Ichiba</div>
+        <div class="card-desc">El "estómago de Kioto": mercado cubierto de 400 metros con más de 100 puestos de comida fresca, pickles artesanales, tofu y souvenirs tradicionales.</div>
+        <div class="card-meta"><a href="https://maps.google.com/?q=Nishiki+Market+Kyoto+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-panel" id="kyoto-food">
+    <p class="section-label">京都で食べる場所 · Gastronomía</p>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Nanzenji · Udon</div>
+        <div class="card-name">おめん</div>
+        <div class="card-name-roman">Omen</div>
+        <div class="card-desc">Udon artesanal de estilo tradicional kyotense, servido con caldo suave y guarniciones de temporada. Una de las experiencias más auténticas de la ciudad.</div>
+        <div class="card-meta">
+          <div class="card-address"><span class="card-address-symbol">◎</span><span>Nanzenji Kusagawa-chō 60, Sakyō-ku, Kioto</span></div>
+          <div class="card-price"><div class="price-badge">$10 — $17 USD</div><div class="price-yen">¥1.500 — ¥2.500</div></div>
+          <a href="https://maps.google.com/?q=南禅寺草川町60+左京区+京都市" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Arashiyama · Tofu</div>
+        <div class="card-name">湯豆腐</div>
+        <div class="card-name-roman">Yudōfu</div>
+        <div class="card-desc">Tofu tradicional de Kioto cocido en caldo dashi suave. Plato delicado y ceremonioso, típico de la cocina shojin cerca de los templos de Arashiyama.</div>
+        <div class="card-meta">
+          <div class="card-address"><span class="card-address-symbol">◎</span><span>Saga Tenryūji Susukino-babachō 45, Ukyō-ku, Kioto</span></div>
+          <div class="card-price"><div class="price-badge">$14 — $20 USD</div><div class="price-yen">¥2.000 — ¥3.000</div></div>
+          <a href="https://maps.google.com/?q=嵯峨天龍寺芒ノ馬場町45+右京区+京都市" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Gion · Alta cocina</div>
+        <div class="card-name">祇園 花寮</div>
+        <div class="card-name-roman">Gion Karyō</div>
+        <div class="card-desc">Kaiseki, la alta cocina japonesa: menú de degustación con platos de temporada presentados como obras de arte. La experiencia gastronómica más refinada de Kioto.</div>
+        <div class="highlight-note">★ El más céntrico · corazón del barrio Gion</div>
+        <div class="card-meta">
+          <div class="card-address"><span class="card-address-symbol">◎</span><span>Gion-chō Minamigawa 570-235, Higashiyama-ku, Kioto</span></div>
+          <div class="card-price"><div class="price-badge">$54 — $122 USD</div><div class="price-yen">¥8.000 — ¥18.000</div></div>
+          <a href="https://maps.google.com/?q=祇園町南側570-235+東山区+京都市" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-panel" id="kyoto-sights">
+    <p class="section-label">名所 · Lugares emblemáticos</p>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Fushimi · Santuario</div>
+        <div class="card-name">伏見稲荷大社</div>
+        <div class="card-name-roman">Fushimi Inari Taisha</div>
+        <div class="card-desc">Miles de torii rojos forman túneles que ascienden por el Monte Inari. Una de las imágenes más icónicas de Japón. Ir temprano evita las multitudes.</div>
+        <div class="highlight-note">◆ Ir temprano · ideal 7:00 — 8:00 AM</div>
+        <div class="card-meta">
+          <div class="card-price"><div class="free-badge">✓ Entrada gratuita</div></div>
+          <a href="https://maps.google.com/?q=Fushimi+Inari+Taisha+Kyoto+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Kita · Templo dorado</div>
+        <div class="card-name">金閣寺</div>
+        <div class="card-name-roman">Kinkaku-ji</div>
+        <div class="card-desc">El Pabellón Dorado cubierto en pan de oro, reflejado sobre un lago tranquilo rodeado de jardines zen. Uno de los monumentos más fotografiados de Japón.</div>
+        <div class="card-meta">
+          <div class="card-price"><div class="price-badge">$2.70 USD</div><div class="price-yen">¥400</div></div>
+          <a href="https://maps.google.com/?q=Kinkakuji+Temple+Kyoto+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Arashiyama · Naturaleza</div>
+        <div class="card-name">嵐山竹林</div>
+        <div class="card-name-roman">Arashiyama Bamboo Grove</div>
+        <div class="card-desc">Bosque de bambú gigante que forma un corredor natural de luz filtrada y sonido envolvente. Uno de los paisajes más etéreos de todo Japón.</div>
+        <div class="card-meta">
+          <div class="card-price"><div class="free-badge">✓ Acceso gratuito</div></div>
+          <a href="https://maps.google.com/?q=Arashiyama+Bamboo+Grove+Kyoto+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-tag">Higashiyama · Barrio histórico</div>
+        <div class="card-name">祇園</div>
+        <div class="card-name-roman">Gion</div>
+        <div class="card-desc">El barrio de las geishas. Calles empedradas de época Edo, casas de té tradicionales y la posibilidad de cruzarse con una maiko al atardecer.</div>
+        <div class="card-meta">
+          <div class="card-price"><div class="free-badge">✓ Acceso gratuito</div></div>
+          <a href="https://maps.google.com/?q=Gion+District+Kyoto+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OSAKA -->
+<section class="city-section" id="osaka">
+  <div class="city-header">
+    <div class="city-header-kana">大阪</div>
+    <div class="city-header-roman">Osaka · Tercera etapa</div>
+    <div class="city-header-days">4 — 5 días</div>
+  </div>
+  <div class="city-tabs" id="osakaTabs">
+    <button class="tab-btn active" onclick="showTab('osaka','shopping')">◈ Compras</button>
+    <button class="tab-btn" onclick="showTab('osaka','food')">◈ Comida</button>
+    <button class="tab-btn" onclick="showTab('osaka','sights')">◈ Lugares</button>
+  </div>
+  <div class="tab-panel active" id="osaka-shopping">
+    <p class="section-label">買い物する場所 · Compras</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Umeda · 梅田</div><div class="card-name">うめだ</div><div class="card-desc">Gran zona comercial del norte de Osaka con shoppings de varios niveles, tiendas departamentales y galerías subterráneas.</div><div class="card-meta"><a href="https://maps.google.com/?q=Umeda+Osaka+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Namba · なんば</div><div class="card-name">なんば</div><div class="card-desc">Centro neurálgico de Osaka para tecnología, electrónica y gadgets. Conectado con Dōtonbori, la zona de entretenimiento y gastronomía.</div><div class="card-meta"><a href="https://maps.google.com/?q=Namba+Osaka+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Den-Den Town · でんでん</div><div class="card-name">でん-でん Town</div><div class="card-desc">El Akihabara de Osaka: anime, manga, videojuegos retro y cultura otaku. Una cuadra entera dedicada a la cultura pop japonesa.</div><div class="card-meta"><a href="https://maps.google.com/?q=Den+Den+Town+Nipponbashi+Osaka" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+  <div class="tab-panel" id="osaka-food">
+    <p class="section-label">大阪で食べる場所 · Gastronomía</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Dōtonbori · Okonomiyaki</div><div class="card-name">お好み焼き</div><div class="card-name-roman">Okonomiyaki</div><div class="card-desc">La tortilla japonesa a tu gusto: capas de repollo, mariscos, carne y fideos sobre una plancha. Ícono de la cocina callejera de Osaka.</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Dōtonbori 2-4-13, Chūō-ku, Osaka</span></div><div class="card-price"><div class="price-badge">$7 — $14 USD</div><div class="price-yen">¥1.000 — ¥2.000</div></div><a href="https://maps.google.com/?q=道頓堀2丁目4-13+大阪市中央区" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Dōtonbori · Ramen</div><div class="card-name">ラーメン</div><div class="card-name-roman">Kyushu Ramen</div><div class="card-desc">Ramen de estilo Kyushu, caracterizado por su caldo de cerdo tonkotsu cremoso y fideos finos. Sabor intenso y reconfortante.</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Dōtonbori 2-2-17, Chūō-ku, Osaka</span></div><div class="card-price"><div class="price-badge">$7 — $14 USD</div><div class="price-yen">¥1.000 — ¥2.000</div></div><a href="https://maps.google.com/?q=道頓堀2丁目2-17+大阪市中央区" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shinsaibashi · Anguila</div><div class="card-name">鰻</div><div class="card-name-roman">Unagi</div><div class="card-desc">Anguila japonesa asada a la parrilla, glaseada con salsa tare dulce sobre arroz. Un plato tradicional y delicado de la cocina japonesa clásica.</div><div class="card-meta"><div class="card-address"><span class="card-address-symbol">◎</span><span>Nishishinsaibashi 1-6-24, Chūō-ku, Osaka</span></div><div class="card-price"><div class="price-badge">$20 — $27 USD</div><div class="price-yen">¥3.000 — ¥4.000</div></div><a href="https://maps.google.com/?q=西心斎橋1丁目6-24+大阪市中央区" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+  <div class="tab-panel" id="osaka-sights">
+    <p class="section-label">名所 · Lugares emblemáticos</p>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Namba · Barrio gastronómico</div><div class="card-name">道頓堀</div><div class="card-name-roman">Dōtonbori</div><div class="card-desc">La arteria gastronómica de Osaka a orillas del canal. Neones gigantes, carteles tridimensionales y decenas de restaurantes. Imprescindible de noche.</div><div class="card-meta"><div class="card-price"><div class="free-badge">✓ Acceso gratuito</div></div><a href="https://maps.google.com/?q=Dotonbori+Osaka+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Centro · Castillo</div><div class="card-name">大阪城</div><div class="card-name-roman">Ōsaka-jō</div><div class="card-desc">El castillo histórico del siglo XVI construido por Toyotomi Hideyoshi. Rodeado de un gran parque con cerezos, perfecto en primavera.</div><div class="card-meta"><div class="card-price"><div class="price-badge">$4 USD</div><div class="price-yen">¥600</div></div><a href="https://maps.google.com/?q=Osaka+Castle+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Nipponbashi · Mercado</div><div class="card-name">黒門市場</div><div class="card-name-roman">Kuromon Ichiba</div><div class="card-desc">El mercado de cocina callejera de Osaka: mariscos frescos, takoyaki, brochetas y frutas de temporada. Más de 180 puestos y tiendas.</div><div class="card-meta"><div class="card-price"><div class="free-badge">✓ Entrada gratuita</div></div><a href="https://maps.google.com/?q=Kuromon+Market+Osaka+Japan" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+    <div class="card"><div class="card-accent"></div><div class="card-inner"><div class="card-tag">Shinsekai · Torre mirador</div><div class="card-name">通天閣</div><div class="card-name-roman">Tsūtenkaku</div><div class="card-desc">La torre símbolo del Osaka retro en el barrio de Shinsekai. Vista panorámica de la ciudad y una inmersión en la estética de los años 50.</div><div class="card-meta"><div class="card-price"><div class="price-badge">$6 — $7 USD</div><div class="price-yen">¥900 — ¥1.000</div></div><a href="https://maps.google.com/?q=Tsutenkaku+Tower+Shinsekai+Osaka" target="_blank" class="maps-link"><span class="maps-link-icon">◎</span> Ver en Google Maps</a></div></div></div>
+  </div>
+</section>
+
+<!-- OPCIONALES -->
+<section class="optional-section" id="optionals">
+  <div class="optional-title">Destinos opcionales</div>
+  <div class="optional-sub">Otras ciudades · para extender el viaje</div>
+  <div class="optional-hint">Tocá cada destino para ver sus lugares destacados.</div>
+  <div class="optional-grid">
+    <div class="optional-city" id="opt-yamaguchi">
+      <div class="optional-city-header" onclick="toggleOptional('yamaguchi')">
+        <div class="optional-city-left"><div class="optional-city-jp">山口県</div><div class="optional-city-en">Yamaguchi</div></div>
+        <div class="optional-city-tag">Puentes · Torii frente al mar</div>
+        <div class="optional-city-chevron">▾</div>
+      </div>
+      <div class="optional-city-body">
+        <div class="opt-place"><div class="opt-place-icon">⌒</div><div class="opt-place-body"><div class="opt-place-name">錦帯橋</div><div class="opt-place-roman">Kintai-kyō · Kintai Bridge</div><div class="opt-place-desc">Puente de madera histórico de cinco arcos construido en 1673. Uno de los puentes más fotografiados de Japón.</div><div class="opt-place-price"><div class="opt-price-pill paid">$2.10 USD · ¥310</div></div></div></div>
+        <div class="opt-place"><div class="opt-place-icon">⛩</div><div class="opt-place-body"><div class="opt-place-name">元乃隅神社</div><div class="opt-place-roman">Motonosumi Inari Jinja</div><div class="opt-place-desc">123 torii rojos en fila frente al mar del Japón. Una de las imágenes más impactantes y fotogénicas del país.</div><div class="opt-place-price"><div class="opt-price-pill free">✓ Gratuito</div></div></div></div>
+      </div>
+    </div>
+    <div class="optional-city" id="opt-kyushu">
+      <div class="optional-city-header" onclick="toggleOptional('kyushu')">
+        <div class="optional-city-left"><div class="optional-city-jp">九州</div><div class="optional-city-en">Kyushu</div></div>
+        <div class="optional-city-tag">Volcanes · Naturaleza · Castillos</div>
+        <div class="optional-city-chevron">▾</div>
+      </div>
+      <div class="optional-city-body">
+        <div class="opt-place"><div class="opt-place-icon">▲</div><div class="opt-place-body"><div class="opt-place-name">阿蘇山</div><div class="opt-place-roman">Aso-san · Mount Aso (Kumamoto)</div><div class="opt-place-desc">Uno de los volcanes activos más grandes del mundo, con una caldera de 25 km de diámetro. Paisaje volcánico único.</div><div class="opt-place-price"><div class="opt-price-pill free">✓ Gratuito (zona general)</div></div></div></div>
+        <div class="opt-place"><div class="opt-place-icon">⌂</div><div class="opt-place-body"><div class="opt-place-name">熊本城</div><div class="opt-place-roman">Kumamoto-jō · Kumamoto Castle</div><div class="opt-place-desc">Uno de los castillos feudales más importantes de Japón, en restauración parcial tras el terremoto de 2016.</div><div class="opt-place-price"><div class="opt-price-pill paid">$5.40 USD · ¥800</div></div></div></div>
+      </div>
+    </div>
+    <div class="optional-city" id="opt-fukuoka">
+      <div class="optional-city-header" onclick="toggleOptional('fukuoka')">
+        <div class="optional-city-left"><div class="optional-city-jp">福岡県</div><div class="optional-city-en">Fukuoka</div></div>
+        <div class="optional-city-tag">Ciudad moderna · Gastronomía</div>
+        <div class="optional-city-chevron">▾</div>
+      </div>
+      <div class="optional-city-body">
+        <div class="opt-place"><div class="opt-place-icon">◈</div><div class="opt-place-body"><div class="opt-place-name">キャナルシティ博多</div><div class="opt-place-roman">Canal City Hakata</div><div class="opt-place-desc">Centro comercial enorme con canales interiores, fuentes sincronizadas, cine y shows en vivo. Arquitectura espectacular.</div><div class="opt-place-price"><div class="opt-price-pill free">✓ Gratuito</div></div></div></div>
+        <div class="opt-place"><div class="opt-place-icon">◉</div><div class="opt-place-body"><div class="opt-place-name">福岡タワー</div><div class="opt-place-roman">Fukuoka Tower</div><div class="opt-place-desc">Mirador con vista panorámica al mar de Hakata. Torre de espejos de 234 metros, la más alta de la región.</div><div class="opt-place-price"><div class="opt-price-pill paid">$5.40 USD · ¥800</div></div></div></div>
+      </div>
+    </div>
+    <div class="optional-city" id="opt-oita">
+      <div class="optional-city-header" onclick="toggleOptional('oita')">
+        <div class="optional-city-left"><div class="optional-city-jp">大分県</div><div class="optional-city-en">Oita</div></div>
+        <div class="optional-city-tag">Aguas termales · Santuarios</div>
+        <div class="optional-city-chevron">▾</div>
+      </div>
+      <div class="optional-city-body">
+        <div class="opt-place"><div class="opt-place-icon">♨</div><div class="opt-place-body"><div class="opt-place-name">別府地獄めぐり</div><div class="opt-place-roman">Beppu Jigoku Meguri</div><div class="opt-place-desc">Circuito por los "infiernos" de Beppu: aguas termales de colores surreales, azul cobalto, rojo sangre, verde esmeralda.</div><div class="opt-place-price"><div class="opt-price-pill paid">$13.50 USD · ¥2.000 (combo)</div></div></div></div>
+        <div class="opt-place"><div class="opt-place-icon">⛩</div><div class="opt-place-body"><div class="opt-place-name">宇佐神宮</div><div class="opt-place-roman">Usa Jingū</div><div class="opt-place-desc">Uno de los santuarios sintoístas más importantes de Japón y sede central de todos los santuarios Hachiman del país.</div><div class="opt-place-price"><div class="opt-price-pill free">✓ Gratuito</div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-summary">
+    <div class="opt-summary-title">Resumen rápido</div>
+    <div class="opt-summary-row"><span class="opt-summary-dot">◈</span><span><strong style="color:var(--white)">Yamaguchi</strong> · Puentes históricos + torii frente al mar</span></div>
+    <div class="opt-summary-row"><span class="opt-summary-dot">◈</span><span><strong style="color:var(--white)">Kyushu</strong> · Volcanes + naturaleza intensa + castillos</span></div>
+    <div class="opt-summary-row"><span class="opt-summary-dot">◈</span><span><strong style="color:var(--white)">Fukuoka</strong> · Ciudad moderna + gastronomía (tonkotsu ramen)</span></div>
+    <div class="opt-summary-row"><span class="opt-summary-dot">◈</span><span><strong style="color:var(--white)">Oita</strong> · Aguas termales (onsen) · la capital del onsen de Japón</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-kana">桜</div>
+  <div class="blossom-deco">· · ·</div>
+  <div class="footer-text">Propuesta de viaje · Japón · 3 semanas</div>
+  <div class="footer-note">Precios convertidos de yenes (¥) a dólares (USD) · tipo de cambio aprox. ¥148 = $1 USD</div>
+</footer>
+
+<script>
+(function(){const c=document.getElementById('petalsBg');for(let i=0;i<14;i++){const p=document.createElement('div');p.className='petal';p.style.left=(Math.random()*100)+'%';p.style.width=(8+Math.random()*10)+'px';p.style.height=(10+Math.random()*10)+'px';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=(Math.random()*15)+'s';c.appendChild(p);}})();
+const hamburger=document.getElementById('hamburger'),sidebar=document.getElementById('sidebar'),overlay=document.getElementById('overlay');
+hamburger.addEventListener('click',()=>{const o=sidebar.classList.toggle('open');overlay.classList.toggle('open',o);hamburger.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''});
+overlay.addEventListener('click',closeSidebar);
+function closeSidebar(){sidebar.classList.remove('open');overlay.classList.remove('open');hamburger.classList.remove('open');document.body.style.overflow=''}
+function showTab(city,section){document.querySelectorAll('[id^="'+city+'-"]').forEach(el=>el.classList.remove('active'));const t=document.getElementById(city+'-'+section);if(t)t.classList.add('active');const tabs=document.getElementById(city+'Tabs');if(tabs)tabs.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.toggle('active',btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes(section)))}
+function toggleTrains(){const acc=document.getElementById('trenes');const btn=acc.querySelector('.train-accordion-toggle');const open=acc.classList.toggle('open');btn.setAttribute('aria-expanded',open)}
+function toggleOptional(city){const el=document.getElementById('opt-'+city);if(el)el.classList.toggle('open')}
+</script>
+</body>
+</html>
